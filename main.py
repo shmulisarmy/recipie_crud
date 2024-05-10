@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-
+from fastapi.responses import FileResponse
 
 from globals import Globals
 
@@ -36,6 +36,15 @@ app.include_router(reviews_router, prefix="/reviews")
 @app.get("/")
 def root():
     return RedirectResponse("/recipies")
+
+
+@app.get("/like_button")
+def like_button():
+    return FileResponse("images/like.png")
+
+@app.get("/unLike_button")
+def liked_button():
+    return FileResponse("images/unLiked.png")
 
 
 

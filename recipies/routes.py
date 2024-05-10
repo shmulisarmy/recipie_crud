@@ -72,7 +72,15 @@ def create_recipie(request: Request, id: int):
 @router.get("/like/{recipie_id}/{user_id}")
 def like_recipie(request: Request, recipie_id: int, user_id: int):
     recipies_db.like_recipie(user_id, recipie_id)
-    return {"message": "recipie liked"}
+    return templates.TemplateResponse("htmx/liked.html", {"request": request, "user_id": user_id, "recipie_id": recipie_id})
+
+@router.get("/unLike/{recipie_id}/{user_id}")
+def like_recipie(request: Request, recipie_id: int, user_id: int):
+    # recipies_db.unLike_recipie(user_id, recipie_id)
+    return templates.TemplateResponse("htmx/unLiked.html", {"request": request, "user_id": user_id, "recipie_id": recipie_id})
+ 
+
+
 
 
 @router.get("/liked/{user_id}")
