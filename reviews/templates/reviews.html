@@ -1,0 +1,22 @@
+<form action="/reviews/create" method="post">
+    <label for="content">content</label>
+    <input type="text" id="content" name="content"><br>
+    <label for="posted_by">posted_by</label>
+    <input type="number" id="posted_by" name="posted_by"><br>
+    <input type="submit">
+</form>
+
+
+
+<main>
+
+    {% for review in reviews %}
+    <div class="review">
+        <h1>{{review[1]}}</h1>
+        <p><b>{{review[0]}}</b></p>
+    </div>
+    {% endfor %}
+
+</main>
+
+

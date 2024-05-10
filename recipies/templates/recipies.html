@@ -10,6 +10,7 @@
         top: 0%;
         left: 0%;
         background: linear-gradient(90deg, #00d0ff9e, #366cc299);
+        z-index: 1;
     }
     main {
                 margin: 8%;
@@ -25,7 +26,16 @@
         margin: 10px;
         border-radius: 10px;
         background-color: white;
+        /* background: linear-gradient(90deg, white, rgb(253, 253, 229)); */
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.822);
+        transition: .9s;
     }
+    .recipie:hover {
+        background: linear-gradient(180deg, white, rgba(129, 217, 246, 0.057));
+        transform: rotateY(180deg) scale(1.2);
+        
+    }
+
 
     .img {
         width: 100%;
@@ -48,6 +58,14 @@
         padding: 2px;
         list-style: button;
     }
+
+    @keyframes flip {
+ 
+    100%{
+        transform: rotateY(180deg);
+    }
+    }
+    
 </style>
 
 <nav style="background-color: rgba(0, 0, 0, 0.92);">

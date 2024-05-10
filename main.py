@@ -21,12 +21,15 @@ colors_in_list = [blue, green, red, yellow]
 
 from users.routes import router as users_router
 from recipies.routes import router as recipies_router
+from reviews.routes import router as reviews_router
+
 
 
 app = FastAPI()
 
 app.include_router(users_router, prefix="/users")
 app.include_router(recipies_router, prefix="/recipies")
+app.include_router(reviews_router, prefix="/reviews")
 
 
 
