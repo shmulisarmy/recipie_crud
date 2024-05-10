@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory="reviews/templates")
 def read_reviews(request: Request):
     connection = connect_to_db()
     cursor = connection.cursor()
-    cursor.execute("SELECT content, users.username FROM reviews inner join users on reviews.posted_by = users.id;")
+    cursor.execute("SELECT content, users.username, users.id FROM reviews inner join users on reviews.posted_by = users.id;")
     reviews = cursor.fetchall()
     connection.close()
     return templates.TemplateResponse("reviews.html", {"request": request, "reviews": reviews})

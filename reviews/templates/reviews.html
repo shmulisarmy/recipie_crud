@@ -1,19 +1,96 @@
-<form action="/reviews/create" method="post">
-    <label for="content">content</label>
-    <input type="text" id="content" name="content"><br>
+<style>
+    body{
+        margin: 0%;
+    }
+    main {
+                margin: 8%;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-gap: 20px;
+            }
+
+            .review {
+                padding: 10px;
+                margin: 10px;
+                border-radius: 10px;
+                background-color: whitesmoke;
+                
+            }
+
+            .profile, .text{
+                padding: 10px;
+                margin: 10px;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            img{
+                width: 100%;
+                height: 100%;
+                border-radius: 100%;
+            }
+            .img {
+                width: 70px;
+                height: 70px;
+                aspect-ratio: 1/1 ;
+            }
+            form{
+                position: sticky;
+                top: 0;
+            }
+            .button-cover{
+                position: sticky;
+                top: 0;
+                display: flex;
+                background: linear-gradient(90deg, white, #f482e95d);
+                height: 70px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                button{
+                    margin-left: 50%;
+                    height: 20px;
+                        transform: translateX(-50%);
+                        background: linear-gradient(90deg,lightblue, green);
+                        border-radius: 10px;
+                }
+            }
+         
+</style>
+
+<div class="button-cover">
+    <button onclick="this.parentElement.style.display = 'none'; document.getElementById('reviewForm').style.display = 'block';">Leave a review</button>
+</div>
+
+<form id="reviewForm" action="/reviews/create" method="post" style="display: none; flex-direction: column; align-items: center; gap: 10px; background-color: #f2f2f2; padding: 10px; border-radius: 10px; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);">
+    <label for="content" style="margin-top: 0;">content</label>
+    <input type="text" id="content" name="content" style="width: 100%; padding: 10px; border: none; border-radius: 5px; box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2);">
     <label for="posted_by">posted_by</label>
-    <input type="number" id="posted_by" name="posted_by"><br>
-    <input type="submit">
+    <input type="number" id="posted_by" name="posted_by" style="width: 100%; padding: 10px; border: none; border-radius: 5px; box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2);">
+    <input type="submit" value="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 18px;">
 </form>
 
-
-
+<center>
+    <header>
+        <h1>like the site? see a bug? give a review</h1>
+    </header>
+</center>
+    
 <main>
 
     {% for review in reviews %}
     <div class="review">
-        <h1>{{review[1]}}</h1>
-        <p><b>{{review[0]}}</b></p>
+        <div class="profile">
+
+            <div class="img">
+                <img src="/users/image/{{review[2]}}" alt="">
+            </div>
+            <h1>{{review[1]}}</h1>
+        </div>
+        <div class="text">
+
+            <p><b>{{review[0]}}</b></p>
+        </div>
     </div>
     {% endfor %}
 
