@@ -33,6 +33,15 @@
         /* background: linear-gradient(90deg, white, rgb(253, 253, 229)); */
         box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.822);
         transition: .9s;
+
+        .top{
+            display: flex;
+            position: relative;
+        }
+
+        .bottom {
+            padding: 10px;
+        }
     }
 
     .text {
@@ -66,6 +75,17 @@
         height: 200px;
         border-radius: 10px;
         overflow: hidden;
+        
+    }
+
+    .profile{
+        width: 50px;
+        height: 50px;
+        margin: 10px;
+        img{
+            
+            border-radius: 100%;
+        }
     }
 
     img {
@@ -101,7 +121,7 @@
         position: absolute;
         top: 10px;
         right: 10px;
-        transform: scale(0.8);
+        transform: scale(0.7);
         /* transition: .9s; */
         border: 3px solid transparent;
 
@@ -116,10 +136,7 @@
         .like:active{
             transform: scale(0.6);
         }
-        .top{
-            display: flex;
-            position: relative;
-        }
+        
 </style>
 
 
@@ -127,46 +144,47 @@
 <nav style="background-color: rgba(0, 0, 0, 0.92);">
     <ul
         style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;  padding: 10px; border-radius: 10px; @media (max-width: 768px) {flex-direction: column; align-items: stretch;}">
+        {% for link in links[4:] %}
         <li style="margin: 0 10px; @media (max-width: 768px) {margin: 10px 0;}"><a
-                style="color: white; text-decoration: none;" href="/">Home</a></li>
-        <li style="margin: 0 10px; @media (max-width: 768px) {margin: 10px 0;}"><a
-                style="color: white; text-decoration: none;" href="/recipies/create">Create</a></li>
-        <li style="margin: 0 10px; @media (max-width: 768px) {margin: 10px 0;}"><a
-                style="color: white; text-decoration: none;" href="/recipies/liked">Liked</a></li>
-        <form action="/recipies" method="get"
-            style="margin: 0 10px; display: flex; align-items: center; @media (max-width: 768px) {width: 100%;}">
-            <input type="search" name="search"
-                style=" color: white; padding: 10px; border: none; border-radius: 5px; width: 100%; @media (max-width: 768px) {margin: 10px 0;}">
-            <button type="submit"
-                style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; @media (max-width: 768px) {width: 100%;}">Search</button>
-        </form>
-        {% for link in links %}
-        <li style="margin: 0 10px; @media (max-width: 768px) {margin: 10px 0;}"><a
-                style="color: white; text-decoration: none;" href="{{link}}">{{link.split('/')[-1]}}</a></li>
+                style="color: white; text-decoration: none;" href="{{link}}">{{link}}</a></li>
         {% endfor %}
     </ul>
 </nav>
 
 <main>
-
+    <!-- name, ingrediants, instructions, and time_to_make, id, posted_by liked -->
     {% for recipie in recipies %}
+
     <div class="recipie">
         <div class="img">
             <img src="/recipies/image/{{ recipie[4] }}" alt="">
         </div>
         <div class="text">
             <div class="top">
+                <div class="profile">
+                        <img src="/users/image/{{ recipie[5] }}" alt="">
+                </div>
 
                 <h1>{{ recipie[0] }}</h1>
-                <img src="/like_button" hx-get="/recipies/like/{{ recipie[4] }}/1" hx-swap="outerHTML" class="like" alt="">
+                <img 
+                {% if recipie[6] %}
+                    src="/unLike_button" hx-get="/recipies/unLike/{{ recipie[4] }}/1"
+                {% else %}
+                    src="/like_button" hx-get="/recipies/like/{{ recipie[4] }}/1"
+                {% endif %}
+                 hx-swap="outerHTML" class="like" alt="">
 
             </div>
-            {% for food in recipie[1] %}
-            <h4>{{food}}: {{recipie[1][food]}}</h4>
-            {% endfor %}
-            <p class="instructions">{{ recipie[2] }}</p>
-            <p>{{ recipie[3] }}</p>
+            <div class="bottom">
+
+                {% for food in recipie[1] %}
+                <h4>{{food}}: {{recipie[1][food]}}</h4>
+                {% endfor %}
+                <p class="instructions">{{ recipie[2] }}</p>
+                <p>time to make: {{ recipie[3] }}</p>
+            </div>
         </div>
+
         <!-- <button hx-get="/recipies/like/{{ recipie[4] }}/1" class="like"> -->
             <!-- <a href="/recipies/like/{{ recipie[4] }}/1">like</a> -->
         <!-- </button> -->

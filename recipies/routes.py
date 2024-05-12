@@ -31,15 +31,16 @@ class Recipe(BaseModel):
 
 @router.get("/")
 def get_recipies(request: Request):
-    recipies = recipies_db.get_recipies()
+    recipies = recipies_db.get_100_most_recent_recipies(user_id=1)
     links = Globals.get_routes(Globals)
     print(f"links: {links}")
     return templates.TemplateResponse("recipies.html", {"request": request, "recipies": recipies, "links": links})
 
 
-@router.get("/time_to_make")
-def get_recipies(request: Request, min_time: int = Query(...), max_time: int = Query(...)):
-    recipies = recipies_db.get_recipies_by_time_to_make(min_time, max_time)
+@router.get("/time_to_make/{min_time}/{max_time}")
+def get_recipies(request: Request, min_time: int, max_time: int):
+    user_id = 1
+    recipies = recipies_db.get_recipies_by_time_to_make(user_id, min_time, max_time)
     return templates.TemplateResponse("recipies.html", {"request": request, "recipies": recipies})
 
 
@@ -76,7 +77,7 @@ def like_recipie(request: Request, recipie_id: int, user_id: int):
 
 @router.get("/unLike/{recipie_id}/{user_id}")
 def like_recipie(request: Request, recipie_id: int, user_id: int):
-    # recipies_db.unLike_recipie(user_id, recipie_id)
+    recipies_db.unlike_recipie(user_id, recipie_id)
     return templates.TemplateResponse("htmx/unLiked.html", {"request": request, "user_id": user_id, "recipie_id": recipie_id})
  
 
