@@ -52,6 +52,20 @@ def get_100_most_recent_recipies(user_id: int) -> list[tuple[str, str, str, int,
     return recipies
 
 
+def get_recipie(id: int) -> list[tuple[str, str, str, int, int]]:
+    """Gets name, ingrediants, instructions, and time_to_make, id, posted_by liked (CASE) by id """
+    connection = connect_to_db()
+    cursor = connection.cursor()
+    # Assuming M_T_N is a placeholder for the table name
+    Case = "CASE WHEN liked_posts.user_id IS NOT NULL THEN 1 ELSE 0 END"
+    Join = f"LEFT JOIN liked_posts ON liked_posts.post_id = {M_T_N}.id AND liked_posts.user_id = %s"
+    q = f"SELECT {M_T_N}.name, {M_T_N}.ingrediants, {M_T_N}.instructions, {M_T_N}.total_time_to_make, {M_T_N}.id, {M_T_N}.posted_by, {Case} FROM {M_T_N} {Join}"
+    cursor.execute(f"{q} WHERE {M_T_N}.id = %s", (str(id), str(id))) 
+    recipie = cursor.fetchone()
+    connection.close()
+    return recipie
+
+
 
 # def get_recipies_by_time_to_make(min_time: int, max_time: int, desc: bool = False) -> list[tuple[str, str, str, int, int]]:
 #     """gets name, ingredients, instructions andtime_to_make FROM where time_to_make is"""

@@ -16,7 +16,43 @@
         z-index: 1;
     }
 
+    #recipie-display{
+        z-index: 1;
+        background-color: white;
+        position: sticky;
+        top: 8%;
+        display: flex;
+        justify-content: space-evenly;
+        margin: 8%;
+        .text, .img{
+            flex: 1;
+            margin: 30px;
+        }
+        .x{
+            position: absolute;
+            top: 0%;
+            right: 0%;
+            background-color: red;
+            border-radius: 30%;
+            width: 25px;
+            height: 25px;
+        }
+        .x:active{
+            transform: scale(0.8);
+        }
+    }
+
+    /* .wrapper{
+        display: flex;
+    } */
+
+    #recipie-display {
+        flex: 1;
+
+    }
+
     main {
+        flex: 1;
         margin: 8%;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -151,50 +187,63 @@
     </ul>
 </nav>
 
-<main>
-    <!-- name, ingrediants, instructions, and time_to_make, id, posted_by liked -->
-    {% for recipie in recipies %}
 
-    <div class="recipie">
-        <div class="img">
+
+    <div id="recipie-display"></div>
+
+
+    
+    <main>
+        <!-- name, ingrediants, instructions, and time_to_make, id, posted_by liked -->
+        {% for recipie in recipies %}
+        
+        <div class="recipie">
+            <div class="img">
             <img src="/recipies/image/{{ recipie[4] }}" alt="">
         </div>
         <div class="text">
             <div class="top">
                 <div class="profile">
-                        <img src="/users/image/{{ recipie[5] }}" alt="">
+                    <img src="/users/image/{{ recipie[5] }}" alt="">
                 </div>
-
+                
                 <h1>{{ recipie[0] }}</h1>
                 <img 
                 {% if recipie[6] %}
-                    src="/unLike_button" hx-get="/recipies/unLike/{{ recipie[4] }}/1"
+                src="/unLike_button" hx-get="/recipies/unLike/{{ recipie[4] }}/1"
                 {% else %}
-                    src="/like_button" hx-get="/recipies/like/{{ recipie[4] }}/1"
+                src="/like_button" hx-get="/recipies/like/{{ recipie[4] }}/1"
                 {% endif %}
-                 hx-swap="outerHTML" class="like" alt="">
-
+                hx-swap="outerHTML" class="like" alt="">
+                
             </div>
             <div class="bottom">
-
+                
                 {% for food in recipie[1] %}
                 <h4>{{food}}: {{recipie[1][food]}}</h4>
                 {% endfor %}
                 <p class="instructions">{{ recipie[2] }}</p>
                 <p>time to make: {{ recipie[3] }}</p>
+                <button hx-get="/recipies/{{ recipie[4] }}" hx-target="#recipie-display"></button>
             </div>
         </div>
-
+        
         <!-- <button hx-get="/recipies/like/{{ recipie[4] }}/1" class="like"> -->
             <!-- <a href="/recipies/like/{{ recipie[4] }}/1">like</a> -->
-        <!-- </button> -->
-    </div>
-    {% endfor %}
-</main>
-
+            <!-- </button> -->
+        </div>
+        {% endfor %}
+    </main>
+    
+    
 
 <script>
     function go_to(url) {
         window.location.href = url
+    }
+    const recipie_display = document.getElementById("recipie-display")
+
+    function exit() {
+        recipie_display.innerHTML = ""
     }
 </script>

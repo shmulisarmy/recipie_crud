@@ -22,6 +22,13 @@ class Recipe(BaseModel):
     total_time_to_make: int
 
 
+@router.get("/{id}")
+def get_recipie(request: Request, id: int):
+    recipie = recipies_db.get_recipie(id)
+    links = Globals.get_routes(Globals)
+    return templates.TemplateResponse("htmx/recipie.html", {"request": request, "recipie": recipie, "links": links})
+
+
 @router.get("/")
 def get_recipies(request: Request):
     recipies = recipies_db.get_100_most_recent_recipies(user_id=1)

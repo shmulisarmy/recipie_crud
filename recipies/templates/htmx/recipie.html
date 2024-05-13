@@ -1,0 +1,19 @@
+
+<div class="img">
+
+    <img src="/recipies/image/{{ recipie[4] }}" alt="">
+</div>
+
+<div class="text">
+
+    <h1>{{ recipie[0] }}</h1>
+    
+    {% for food in recipie[1] %}
+    <h4>{{food}}: {{recipie[1][food]}}</h4>
+    {% endfor %}
+    <p class="instructions">{{ recipie[2] }}</p>
+<p>time to make: {{ recipie[3] }}</p>
+
+
+<button class="x" onclick="exit()">X</button>
+</div>
