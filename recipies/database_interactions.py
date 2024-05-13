@@ -75,12 +75,13 @@ def get_100_most_recent_recipies(user_id: int) -> list[tuple[str, str, str, int,
 #     recipies = cursor.fetchall()
 #     connection.close()
 #     return recipies
+
 def get_recipies_by_time_to_make(user_id: int, min_time: int, max_time: int, desc: bool = False) -> list[tuple[str, str, str, int, int]]:
-    """Gets name, ingrediants, instructions, and time_to_make, id, liked (CASE) where time_to_make is between min_time and max_time."""
+    """Gets name, ingrediants, instructions, and time_to_make, id, posted_by, liked (CASE) where time_to_make is between min_time and max_time."""
     connection = connect_to_db()
     cursor = connection.cursor()
     # Assuming M_T_N is a placeholder for the table name
-    q = f"SELECT {M_T_N}.name, {M_T_N}.ingrediants, {M_T_N}.instructions, {M_T_N}.total_time_to_make, {M_T_N}.id, CASE WHEN liked_posts.user_id IS NOT NULL THEN 1 ELSE 0 END FROM {M_T_N} LEFT JOIN liked_posts ON liked_posts.post_id = {M_T_N}.id AND liked_posts.user_id = %s"
+    q = f"SELECT {M_T_N}.name, {M_T_N}.ingrediants, {M_T_N}.instructions, {M_T_N}.total_time_to_make, {M_T_N}.id, {M_T_N}.posted_by, CASE WHEN liked_posts.user_id IS NOT NULL THEN 1 ELSE 0 END FROM {M_T_N} LEFT JOIN liked_posts ON liked_posts.post_id = {M_T_N}.id AND liked_posts.user_id = %s"
     where_statment = f"where {M_T_N}.total_time_to_make between %s and %s"
     order_by_str = f"ORDER BY {M_T_N}.total_time_to_make {'DESC' if desc else 'ASC'}"  # Assuming you want to order by time_to_make
     cursor.execute(f"{q} {where_statment} {order_by_str}", (user_id, min_time, max_time)) 

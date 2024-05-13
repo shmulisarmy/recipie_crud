@@ -8,14 +8,7 @@ from fastapi.responses import FileResponse
 from typing import Dict
 import json
 
-
 from globals import Globals
-
-
-
-
-# import custom_packages
-
 import recipies.database_interactions as recipies_db
 
 router = APIRouter()
@@ -40,8 +33,9 @@ def get_recipies(request: Request):
 @router.get("/time_to_make/{min_time}/{max_time}")
 def get_recipies(request: Request, min_time: int, max_time: int):
     user_id = 1
+    links = Globals.get_routes(Globals)
     recipies = recipies_db.get_recipies_by_time_to_make(user_id, min_time, max_time)
-    return templates.TemplateResponse("recipies.html", {"request": request, "recipies": recipies})
+    return templates.TemplateResponse("recipies.html", {"request": request, "recipies": recipies, "links": links})
 
 
 
